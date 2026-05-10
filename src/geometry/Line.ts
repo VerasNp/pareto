@@ -1,4 +1,4 @@
-import type Vector2 from "../math/Vector2";
+import type Vector2 from "mwpjs/Vector2";
 
 class Line {
 	public p1: Vector2;
