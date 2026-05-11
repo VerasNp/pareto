@@ -1,8 +1,9 @@
 import type Vector2 from "mwpjs/Vector2";
-import type Color from "../image/Color";
-import type Image from "../image/Image";
+import type { IRasterizerCircle } from "./IRasterizerCircle";
+import type Image from "#image/Image.ts";
+import type Color from "#image/Color.ts";
 
-class CircleBresenham {
+class CircleBresenham implements IRasterizerCircle {
 	public drawCircle(
 		img: Image,
 		center: Vector2,
