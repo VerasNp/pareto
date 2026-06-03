@@ -9,6 +9,14 @@ class Color {
 		this.blue = blue;
 		this.alpha = alpha;
 	}
+	public equals(other: Color): boolean {
+		return (
+			this.red === other.red &&
+			this.green === other.green &&
+			this.blue === other.blue &&
+			this.alpha === other.alpha
+		);
+	}
 }
 
 export default Color;
