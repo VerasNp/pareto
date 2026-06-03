@@ -57,6 +57,14 @@ class P5Renderer implements IRenderer {
 	public clear(): void {
 		this.p.background(0);
 	}
+
+	public drawLine(p1: Vector2, p2: Vector2): void {
+		this.p.line(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	public drawCircle(center: Vector2, radius: number): void {
+		this.p.circle(center.x, center.y, radius * 2);
+	}
 }
 
 export default P5Renderer;

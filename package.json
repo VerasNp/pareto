@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -14,7 +17,7 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
-    "mwpjs": "^2.1.1",
+    "mwpjs": "^3.0.0",
     "p5": "^2.2.3"
   }
 }
