@@ -5,6 +5,7 @@ import prettierConfig from "eslint-config-prettier"
 import { defineConfig } from "eslint/config"
 import js from "@eslint/js"
 import { ESLint } from "eslint"
+import vitest from "@vitest/eslint-plugin"
 
 export default defineConfig([
 	js.configs.recommended,
@@ -13,6 +14,7 @@ export default defineConfig([
 		plugins: {
 			"@typescript-eslint": tseslint as unknown as ESLint.Plugin,
 			prettier: prettierPlugin,
+			vitest: vitest as unknown as ESLint.Plugin,
 		},
 		languageOptions: {
 			parser: tsparser,
@@ -21,6 +23,7 @@ export default defineConfig([
 		rules: {
 			...tseslint.configs.recommended.rules,
 			...prettierConfig.rules,
+			...vitest.configs.recommended.rules,
 			"@typescript-eslint/no-unused-vars": "warn",
 			"no-console": "warn",
 			quotes: ["error", "double"],
