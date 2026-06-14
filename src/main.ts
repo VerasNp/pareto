@@ -6,6 +6,7 @@ import Pipeline from "#pipeline/Pipeline.ts"
 import Line from "#geometry/Line.ts"
 import Vector2 from "mwpjs/Vector2"
 import LineBresenham from "#rasterization/line/LineBresenham.ts"
+import Rectangle from "#geometry/Rectangle.ts"
 
 const sketch1 = (p: p5) => {
 	const WIDTH = 800
@@ -16,13 +17,7 @@ const sketch1 = (p: p5) => {
 	const pipeline = new Pipeline({
 		rasterizerLine: new LineBresenham(),
 	})
-	const horizontalLine = Line.horizontal(5, 0, image.getWidth() - 1, new Color(255, 0, 0, 255))
-	const verticalLine = Line.vertical(5, 0, image.getHeight() - 1, new Color(0, 255, 0, 255))
-	const diagonalLine = new Line(
-		new Vector2(0, 0),
-		new Vector2(image.getWidth() - 1, image.getHeight() - 1),
-		new Color(0, 255, 255, 255),
-	)
+	const rectangle = new Rectangle(new Vector2(0, 0), 20, 3, new Color(255, 255, 0, 255))
 
 	p.setup = () => {
 		p.createCanvas(WIDTH, HEIGHT)
@@ -30,9 +25,7 @@ const sketch1 = (p: p5) => {
 		image.fill(new Color(0, 0, 127, 255))
 	}
 	p.draw = () => {
-		pipeline.draw(horizontalLine, image)
-		pipeline.draw(verticalLine, image)
-		pipeline.draw(diagonalLine, image)
+		pipeline.draw(rectangle, image)
 		renderer.render(image)
 	}
 }
