@@ -2,46 +2,42 @@ import type Vector2 from "mwpjs/Vector2"
 import type { IRasterizerEllipse } from "./IRasterizerEllipse"
 import type Image from "#image/Image.ts"
 import type Color from "#image/Color.ts"
+import type Ellipse from "#geometry/Ellipse.ts"
 
 class EllipseInc implements IRasterizerEllipse {
-	public drawEllipse(img: Image, center: Vector2, rx: number, ry: number, color: Color) {
-		this.drawFirstRegion(img, rx, ry, center, color)
-		this.drawSecondRegion(img, rx, ry, center, color)
+	public drawEllipse(ellipse: Ellipse, img: Image): void {
+		const { radiusX: a, radiusY: b, center, color } = ellipse
+		this._drawFirstRegion(img, a, b, center, color)
+		this._drawSecondRegion(img, a, b, center, color)
 	}
 
-	private drawFirstRegion(img: Image, a: number, b: number, center: Vector2, color: Color) {
+	private _drawFirstRegion(img: Image, a: number, b: number, center: Vector2, color: Color) {
 		for (let x = a, y = 0; b * b * x > a * a * y; y++) {
-			img.setPixel(center.x + x, center.y + y, color)
-			img.setPixel(center.x - x, center.y + y, color)
-			img.setPixel(center.x + x, center.y - y, color)
-			img.setPixel(center.x - x, center.y - y, color)
-			if (
-				Math.abs(this.errorFirstRegion(x - 1, y + 1, a, b)) <
-				Math.abs(this.errorFirstRegion(x, y + 1, a, b))
-			) {
+			this._plot4(img, center, x, y, color)
+			if (Math.abs(this._error(x - 1, y + 1, a, b)) < Math.abs(this._error(x, y + 1, a, b))) {
 				x--
 			}
 		}
 	}
 
-	private drawSecondRegion(img: Image, a: number, b: number, center: Vector2, color: Color) {
+	private _drawSecondRegion(img: Image, a: number, b: number, center: Vector2, color: Color) {
 		for (let x = 0, y = b; a * a * y > b * b * x; x++) {
-			img.setPixel(center.x + x, center.y + y, color)
-			img.setPixel(center.x - x, center.y + y, color)
-			img.setPixel(center.x + x, center.y - y, color)
-			img.setPixel(center.x - x, center.y - y, color)
-			if (Math.abs(this.error(x + 1, y - 1, a, b)) < Math.abs(this.error(x + 1, y, a, b))) {
+			this._plot4(img, center, x, y, color)
+			if (Math.abs(this._error(x + 1, y - 1, a, b)) < Math.abs(this._error(x + 1, y, a, b))) {
 				y--
 			}
 		}
 	}
 
-	private error(x: number, y: number, a: number, b: number) {
-		return a * a * (y * y) + b * b * (x * x) - a * a * (b * b)
+	private _plot4(img: Image, center: Vector2, x: number, y: number, color: Color): void {
+		img.setPixel(center.x + x, center.y + y, color)
+		img.setPixel(center.x - x, center.y + y, color)
+		img.setPixel(center.x + x, center.y - y, color)
+		img.setPixel(center.x - x, center.y - y, color)
 	}
 
-	private errorFirstRegion(x: number, y: number, a: number, b: number) {
-		return this.error(x, y, a, b) + a * a * (1 + 2 * y)
+	private _error(x: number, y: number, a: number, b: number): number {
+		return a * a * y * y + b * b * x * x - a * a * b * b
 	}
 }
 

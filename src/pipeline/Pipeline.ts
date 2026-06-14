@@ -4,10 +4,13 @@ import Line from "#geometry/Line.ts"
 import Rectangle from "#geometry/Rectangle.ts"
 import type { IRasterizerCircle } from "#rasterization/circle/IRasterizerCircle.ts"
 import Circle from "#geometry/Circle.ts"
+import Ellipse from "#geometry/Ellipse.ts"
+import type { IRasterizerEllipse } from "#rasterization/ellipse/IRasterizerEllipse.ts"
 
 interface PipelineConfig {
 	rasterizerLine?: IRasterizerLine
 	rasterizerCircle?: IRasterizerCircle
+	rasterizerEllipse?: IRasterizerEllipse
 }
 
 class Pipeline {
@@ -16,7 +19,7 @@ class Pipeline {
 		this.config = config
 	}
 
-	public draw(primitive: Line | Rectangle | Circle, img: Image): void {
+	public draw(primitive: Line | Rectangle | Circle | Ellipse, img: Image): void {
 		if (primitive instanceof Line) {
 			if (!this.config.rasterizerLine)
 				throw new Error("Pipeline: rasterizerLine não configurado")
@@ -31,6 +34,10 @@ class Pipeline {
 			if (!this.config.rasterizerCircle)
 				throw new Error("Pipeline: rasterizerCircle não configurado")
 			this.config.rasterizerCircle.drawCircle(primitive, img)
+		} else if (primitive instanceof Ellipse) {
+			if (!this.config.rasterizerEllipse)
+				throw new Error("Pipeline: rasterizerEllipse não configurado")
+			this.config.rasterizerEllipse.drawEllipse(primitive, img)
 		} else {
 			throw new Error("Pipeline: tipo de primitiva desconhecido")
 		}
