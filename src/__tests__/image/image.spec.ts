@@ -8,7 +8,7 @@ describe("Image", () => {
 		expect(image.cols).toBe(10)
 		expect(image.rows).toBe(20)
 		expect(image.pixelSize).toBe(2)
-		expect(image.pixels.length).toBe(200) // 10 cols * 20 rows
+		expect(image.pixels.length).toBe(200)
 		expect(image.isDirty).toBe(true)
 	})
 
@@ -46,11 +46,45 @@ describe("Image", () => {
 		expect(image.screenToCol(1)).toBe(0)
 		expect(image.screenToCol(2)).toBe(1)
 		expect(image.screenToCol(19)).toBe(9)
-		expect(image.screenToCol(20)).toBe(10) // Out of bounds
+		expect(image.screenToCol(20)).toBe(10)
 		expect(image.screenToRow(0)).toBe(0)
 		expect(image.screenToRow(1)).toBe(0)
 		expect(image.screenToRow(2)).toBe(1)
 		expect(image.screenToRow(39)).toBe(19)
-		expect(image.screenToRow(40)).toBe(20) // Out of bounds
+		expect(image.screenToRow(40)).toBe(20)
+	})
+
+	it("should get the image width", () => {
+		const image = new Image(10, 20, 2)
+		const width = image.getWidth()
+		expect(width).toBe(10)
+	})
+
+	it("should get the image height", () => {
+		const image = new Image(10, 20, 2)
+		const height = image.getHeight()
+		expect(height).toBe(20)
+	})
+
+	it("should get the screen width", () => {
+		const image = new Image(10, 20, 2)
+		const screenWidth = image.getScreenWidth()
+		expect(screenWidth).toBe(20)
+	})
+
+	it("should get the screen height", () => {
+		const image = new Image(10, 20, 2)
+		const screenHeight = image.getScreenHeight()
+		expect(screenHeight).toBe(40)
+	})
+
+	it("should get pixel content", () => {
+		const image = new Image(10, 20)
+		const pixel = image.getPixel(5, 5)
+		expect(pixel).toBeInstanceOf(Color)
+		expect(pixel.red).toBe(0)
+		expect(pixel.green).toBe(0)
+		expect(pixel.blue).toBe(0)
+		expect(pixel.alpha).toBe(1)
 	})
 })

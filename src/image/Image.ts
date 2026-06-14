@@ -22,7 +22,7 @@ class Image {
 	 * @returns Index in the pixels array corresponding to the specified column and row
 	 */
 	private _index(col: number, row: number): number {
-		return row * this.cols + col
+		return row * this.getWidth() + col
 	}
 
 	/**
@@ -33,6 +33,7 @@ class Image {
 	 */
 	public setPixel(col: number, row: number, color: Color): void {
 		this.pixels[this._index(col, row)] = color
+		this.isDirty = true
 	}
 
 	/**
@@ -88,6 +89,22 @@ class Image {
 	 */
 	public screenToRow(screenY: number, originY: number = 0): number {
 		return Math.floor((screenY - originY) / this.pixelSize)
+	}
+
+	/**
+	 * Get the image width in pixels
+	 * @returns Width of the image in pixels
+	 */
+	public getWidth(): number {
+		return this.cols
+	}
+
+	/**
+	 * Get the image height in pixels
+	 * @returns Height of the image in pixels
+	 */
+	public getHeight(): number {
+		return this.rows
 	}
 }
 
