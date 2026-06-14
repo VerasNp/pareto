@@ -1,16 +1,28 @@
-## Primitivas geométricas
+# pareto
 
-Dentro de `geometry` estão armazenadas as primitivas geométricas que o projeto suporta.
+## Configurando cena
 
-`ImageObject` é responsável por carregar uma `Image` e alocar na cena.
+toda a configuração no momento está sendo realizada em `src/main.ts`.
 
-## Renderer
+## Rodando a aplicação
 
-Nesse projeto é utilizado uma implementação com `p5.js`.
+Primeiramente clone o projeto:
 
+```
+git clone https://github.com/VerasNp/pareto.git
+```
 
-3. Hybrid: Framebuffer + Pipeline explícita (recomendado para o seu caso)
-Combina os dois. Você tem uma pipeline explícita de estágios, como uma GPU simplificada:
-Vertex Stage → Clipping → Rasterization → Fragment Stage → Framebuffer → Display
-Cada estágio é intercambiável. Shaders entram como funções nos estágios de vertex e fragment.
+Instale todas as dependências:
+
+```
+npm install
+```
+
+Rode a aplicação:
+
+```
+npm run dev
+```
+
+A aplicação deve abrir em seu navegador em http://localhost:5173/
 
