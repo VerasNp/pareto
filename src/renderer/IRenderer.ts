@@ -1,9 +1,13 @@
 import type Image from "#image/Image.ts"
-import type Vector2 from "mwpjs/Vector2"
 
 export default interface IRenderer {
+	/**
+	 * Clear the rendering surface
+	 */
 	clear(): void
-	drawLine(p1: Vector2, p2: Vector2): void
-	drawCircle(center: Vector2, radius: number): void
-	drawImage(image: Image, position: Vector2): void
+	/**
+	 * Render the given image on the rendering surface
+	 * @param image Image to be rendered
+	 */
+	render(image: Image): void
 }
