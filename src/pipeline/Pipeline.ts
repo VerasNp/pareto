@@ -9,12 +9,15 @@ import type { IRasterizerEllipse } from "#rasterization/ellipse/IRasterizerEllip
 import type { IFloodFill } from "#rasterization/fill/IFloodFill.ts"
 import type Color from "#image/Color.ts"
 import type Vector2 from "mwpjs/Vector2"
+import Polygon from "#geometry/Polygon.ts"
+import type { IScanLine } from "#rasterization/fill/IScanLine.ts"
 
 interface PipelineConfig {
 	rasterizerLine?: IRasterizerLine
 	rasterizerCircle?: IRasterizerCircle
 	rasterizerEllipse?: IRasterizerEllipse
 	floodFill?: IFloodFill
+	scanLine?: IScanLine
 }
 
 class Pipeline {
@@ -23,7 +26,7 @@ class Pipeline {
 		this.config = config
 	}
 
-	public draw(primitive: Line | Rectangle | Circle | Ellipse, img: Image): void {
+	public draw(primitive: Line | Rectangle | Circle | Ellipse | Polygon, img: Image): void {
 		if (primitive instanceof Line) {
 			if (!this.config.rasterizerLine)
 				throw new Error("Pipeline: rasterizerLine não configurado")
@@ -42,6 +45,10 @@ class Pipeline {
 			if (!this.config.rasterizerEllipse)
 				throw new Error("Pipeline: rasterizerEllipse não configurado")
 			this.config.rasterizerEllipse.drawEllipse(primitive, img)
+		} else if (primitive instanceof Polygon) {
+			if (!this.config.scanLine) throw new Error("No scan line rasterizer provided")
+			this.config.scanLine.fill(img, primitive)
+			return
 		} else {
 			throw new Error("Pipeline: tipo de primitiva desconhecido")
 		}
