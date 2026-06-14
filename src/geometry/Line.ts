@@ -1,25 +1,23 @@
-import type Vector2 from "mwpjs/Vector2"
-import type IRenderer from "../renderer/IRenderer"
-import type { IDrawable } from "#scene/IDrawable.ts"
+import Vector2 from "mwpjs/Vector2"
 import type Color from "#image/Color.ts"
 
-class Line implements IDrawable {
-	public p1: Vector2
-	public p2: Vector2
-	public color: Color
+class Line {
+	public readonly p1: Vector2
+	public readonly p2: Vector2
+	public readonly color: Color
 
-	constructor(p1: Vector2, p2: Vector2, color: Color) {
+	public constructor(p1: Vector2, p2: Vector2, color: Color) {
 		this.p1 = p1
 		this.p2 = p2
 		this.color = color
 	}
 
-	public length(): number {
-		throw new Error("Method not implemented.")
+	public static horizontal(y: number, x1: number, x2: number, color: Color): Line {
+		return new Line(new Vector2(x1, y), new Vector2(x2, y), color)
 	}
 
-	public draw(renderer: IRenderer): void {
-		renderer.drawLine(this.p1, this.p2)
+	public static vertical(x: number, y1: number, y2: number, color: Color): Line {
+		return new Line(new Vector2(x, y1), new Vector2(x, y2), color)
 	}
 }
 

@@ -1,43 +1,24 @@
-import type Vector2 from "mwpjs/Vector2"
-import type { IRasterizerCircle } from "#rasterization/circle/IRasterizerCircle.ts"
-import type Color from "#image/Color.ts"
 import type { IRasterizerLine } from "#rasterization/line/IRasterizerLine.ts"
 import type Image from "#image/Image.ts"
-import type { IRasterizerEllipse } from "#rasterization/ellipse/IRasterizerEllipse.ts"
+import type Line from "#geometry/Line.ts"
 
-export class Pipeline {
-	private readonly _rasterizerLine?: IRasterizerLine
-	private readonly _rasterizerCircle?: IRasterizerCircle
-	private readonly _rasterizerEllipse?: IRasterizerEllipse
+interface PipelineConfig {
+	rasterizerLine?: IRasterizerLine
+}
 
-	constructor(
-		rasterizerLine?: IRasterizerLine,
-		rasterizerCircle?: IRasterizerCircle,
-		rasterizerEllipse?: IRasterizerEllipse,
-	) {
-		this._rasterizerLine = rasterizerLine
-		this._rasterizerCircle = rasterizerCircle
-		this._rasterizerEllipse = rasterizerEllipse
+class Pipeline {
+	private readonly config: PipelineConfig
+	public constructor(config: PipelineConfig) {
+		this.config = config
 	}
 
-	public drawLine(img: Image, p1: Vector2, p2: Vector2, color: Color): void {
-		if (!this._rasterizerLine) {
-			throw new Error("No line rasterizer provided")
-		}
-		this._rasterizerLine.drawLine(img, p1, p2, color)
-	}
+	public draw(line: Line, img: Image): void {
+		if (!this.config.rasterizerLine) throw new Error("No line rasterizer provided")
 
-	public drawCircle(img: Image, center: Vector2, radius: number, color: Color): void {
-		if (!this._rasterizerCircle) {
-			throw new Error("No circle rasterizer provided")
-		}
-		this._rasterizerCircle.drawCircle(img, center, radius, color)
-	}
+		if (!line) return
 
-	public drawEllipse(img: Image, center: Vector2, rx: number, ry: number, color: Color): void {
-		if (!this._rasterizerEllipse) {
-			throw new Error("No ellipse rasterizer provided")
-		}
-		this._rasterizerEllipse.drawEllipse(img, center, rx, ry, color)
+		this.config.rasterizerLine.drawLine(line, img)
 	}
 }
+
+export default Pipeline
