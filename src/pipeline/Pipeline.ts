@@ -6,11 +6,15 @@ import type { IRasterizerCircle } from "#rasterization/circle/IRasterizerCircle.
 import Circle from "#geometry/Circle.ts"
 import Ellipse from "#geometry/Ellipse.ts"
 import type { IRasterizerEllipse } from "#rasterization/ellipse/IRasterizerEllipse.ts"
+import type { IFloodFill } from "#rasterization/fill/IFloodFill.ts"
+import type Color from "#image/Color.ts"
+import type Vector2 from "mwpjs/Vector2"
 
 interface PipelineConfig {
 	rasterizerLine?: IRasterizerLine
 	rasterizerCircle?: IRasterizerCircle
 	rasterizerEllipse?: IRasterizerEllipse
+	floodFill?: IFloodFill
 }
 
 class Pipeline {
@@ -41,6 +45,11 @@ class Pipeline {
 		} else {
 			throw new Error("Pipeline: tipo de primitiva desconhecido")
 		}
+	}
+
+	public fill(img: Image, seed: Vector2, color: Color): void {
+		if (!this.config.floodFill) throw new Error("No flood fill provided")
+		this.config.floodFill.fill(img, seed, color)
 	}
 }
 
