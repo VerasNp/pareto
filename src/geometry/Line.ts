@@ -1,5 +1,5 @@
-import Vector2 from "mwpjs/Vector2"
 import type Color from "#image/Color.ts"
+import { Vector2 } from "mwpjs"
 
 class Line {
 	public readonly p1: Vector2
