@@ -1,7 +1,12 @@
-import CubeRenderer from "./webgl/CubeRenderer"
-import vertexShaderSource from "./webgl/shaders/cube.vert.glsl"
-import fragmentShaderSource from "./webgl/shaders/cube.frag.glsl"
+import App from "#threejs/core/App.ts"
+import vertexShaderSource from "./webgl/shaders/sky.vert.glsl"
+import fragmentShaderSource from "./webgl/shaders/sky.frag.glsl"
 
-const canvas = document.querySelector<HTMLCanvasElement>("#canvas")!
-const renderer = new CubeRenderer(canvas, vertexShaderSource, fragmentShaderSource)
-renderer.start()
+const canvas = document.querySelector<HTMLCanvasElement>("#app")!
+const app = new App(canvas, {
+	sky: {
+		vertShader: vertexShaderSource,
+		fragShader: fragmentShaderSource,
+	},
+})
+app.start()
